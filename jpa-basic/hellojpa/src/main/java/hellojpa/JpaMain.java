@@ -18,6 +18,8 @@ public class JpaMain {
 			System.out.println("============");
 			em.persist(member);
 			System.out.println("============");
+
+			em.find(Member.class, 1L);
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();
