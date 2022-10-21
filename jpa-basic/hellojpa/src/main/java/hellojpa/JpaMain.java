@@ -13,13 +13,11 @@ public class JpaMain {
 		tx.begin(); // 트랜잭션 시작
 
 		try {
-			Member member = new Member();
-			member.setUsername("A");
-			System.out.println("============");
-			em.persist(member);
-			System.out.println("============");
+			Member findMember1 = em.find(Member.class, 1L);
+			Member findMember2 = em.find(Member.class, 1L);
 
-			em.find(Member.class, 1L);
+			System.out.println("findMember1 == findMember2 " + (findMember1 == findMember2));
+
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();
