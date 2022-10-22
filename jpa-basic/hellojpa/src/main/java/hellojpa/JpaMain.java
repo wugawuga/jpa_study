@@ -13,16 +13,8 @@ public class JpaMain {
 		tx.begin(); // 트랜잭션 시작
 
 		try {
-			Member memberA = new Member();
-			memberA.setUsername("a");
-
-			em.persist(memberA);
-			System.out.println("persist================");
-
-			Member memberB = new Member();
-			memberB.setUsername("b");
-			em.persist(memberB);
-			System.out.println("persist================");
+			Member member = em.find(Member.class, 1L);
+			member.setUsername("changeName");
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();
