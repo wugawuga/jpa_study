@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 public class Member {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private String id;
 
 	@Column(name = "name", nullable = false)
