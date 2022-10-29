@@ -11,10 +11,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@TableGenerator(
+	name = "MEMBER_SEQ_GENERATOR",
+	table = "MY_SEQUENCES",
+	pkColumnValue = "MEMBER_SEQ", allocationSize = 1
+)
 @SequenceGenerator(name = "member_seq_generator", sequenceName = "member_seq")
 public class Member {
 
