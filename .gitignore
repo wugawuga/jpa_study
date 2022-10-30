@@ -1,7 +1,7 @@
-/jpa-basic/hellojpa/pom.xml
-/jpa-basic/hellojpa/.idea/
-/jpa-basic/hellojpa/target/
+**/target/
+
 *.idea/
 *.iws
 *.iml
 *.ipr
+*.class
