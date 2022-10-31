@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 public class Member {
@@ -12,7 +13,21 @@ public class Member {
 	@GeneratedValue
 	@Column(name = "MEMBER_ID")
 	private Long id;
+
+	@Column(name = "USERNAME")
 	private String name;
+
+	@Column(name = "TEAM_ID")
+	private Long teamId;
+
+	public Long getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(Long teamId) {
+		this.teamId = teamId;
+	}
+
 	private String city;
 	private String street;
 	private String zipcode;
