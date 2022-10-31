@@ -66,4 +66,12 @@ public class Member {
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
 	}
+
+	public Team getTeam() {
+		return team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
+	}
 }
