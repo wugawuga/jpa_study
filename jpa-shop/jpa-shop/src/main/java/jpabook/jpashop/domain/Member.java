@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 public class Member {
@@ -71,7 +70,8 @@ public class Member {
 		return team;
 	}
 
-	public void setTeam(Team team) {
+	public void changeTeam(Team team) {
 		this.team = team;
+		team.getMembers().add(this);
 	}
 }
