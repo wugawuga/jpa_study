@@ -22,10 +22,6 @@ public class Member {
 	@Column(name = "USERNAME")
 	private String name;
 
-	@ManyToOne
-	@JoinColumn(name = "TEAM_ID")
-	private Team team;
-
 	@OneToMany(mappedBy = "member")
 	private List<Order> orders = new ArrayList<>();
 
@@ -71,13 +67,5 @@ public class Member {
 
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
-	}
-
-	public Team getTeam() {
-		return team;
-	}
-
-	public void setTeam(Team team) {
-		this.team = team;
 	}
 }
