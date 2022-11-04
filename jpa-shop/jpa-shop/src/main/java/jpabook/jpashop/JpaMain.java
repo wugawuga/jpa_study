@@ -5,8 +5,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderItem;
+import jpabook.jpashop.domain.Team;
 
 public class JpaMain {
 	public static void main(String[] args) {
@@ -17,14 +19,17 @@ public class JpaMain {
 
 		try {
 
-			Order order = new Order();
-			em.persist(order);
+			Member member = new Member();
+			member.setName("member1");
 
-			OrderItem orderItem = new OrderItem();
-			orderItem.setOrderPrice(1000);
-			order.addOrderItem(orderItem);
+			em.persist(member);
 
-			em.persist(orderItem);
+			Team team = new Team();
+			team.setName("teamA");
+			team.getMembers().add(member);
+
+			em.persist(team);
+
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();
