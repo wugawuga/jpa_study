@@ -10,36 +10,36 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Team {
+public class Team extends BaseEntity {
 
-	@Id
-	@GeneratedValue
-	@Column(name = "TEAM_ID")
-	private Long id;
+    @Id
+    @GeneratedValue
+    @Column(name = "TEAM_ID")
+    private Long id;
 
-	@OneToMany
-	@JoinColumn(name = "TEAM_ID")
-	private List<Member> members = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "TEAM_ID")
+    private List<Member> members = new ArrayList<>();
 
-	private String name;
+    private String name;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public List<Member> getMembers() {
-		return members;
-	}
+    public List<Member> getMembers() {
+        return members;
+    }
 }
