@@ -19,7 +19,11 @@ public class JpaMain {
 
             em.persist(member);
 
+            em.flush();
+            em.clear();
+
             Member findMember = em.getReference(Member.class, member.getId());
+            System.out.println("findMember = " + findMember.getClass());
             System.out.println("findMember.getName() = " + findMember.getName());
 
             tx.commit();
