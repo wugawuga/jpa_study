@@ -24,13 +24,15 @@ public class JpaMain {
 
             Member refMember = em.getReference(Member.class, member.getId());
             System.out.println("m1 class = " + (refMember.getClass()));
-            refMember.getName();
 
-            Member findMember = em.find(Member.class, member.getId());
-            System.out.println("findMember class = " + (findMember.getClass()));
+            em.detach(refMember);
+//            em.close();
+
+            System.out.println("refMember.getName() = " + refMember.getName());
 
             tx.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             tx.rollback();
         } finally {
             em.close();
