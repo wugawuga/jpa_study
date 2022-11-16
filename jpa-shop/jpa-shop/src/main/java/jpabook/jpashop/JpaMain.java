@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.Team;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -14,25 +15,26 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
             Member member = new Member();
             member.setName("wuga");
-
+            member.setTeam(team);
             em.persist(member);
 
             em.flush();
             em.clear();
 
-            Member refMember = em.getReference(Member.class, member.getId());
-            System.out.println("m1 class = " + (refMember.getClass()));
+            Member m = em.find(Member.class, member.getId());
+            System.out.println("m = " + m.getTeam().getClass());
 
-//            em.detach(refMember);
-            em.close();
-
-            System.out.println("refMember.getName() = " + refMember.getName());
+            System.out.println("=================================+");
+            System.out.println("1111111111111111" + m.getTeam().getName());
 
             tx.commit();
         } catch (Exception e) {
-            e.printStackTrace();
             tx.rollback();
         } finally {
             em.close();
