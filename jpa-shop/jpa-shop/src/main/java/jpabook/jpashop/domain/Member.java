@@ -3,6 +3,7 @@ package jpabook.jpashop.domain;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Member extends BaseEntity {
+public class Member {
 
     @Id
     @GeneratedValue
@@ -38,7 +39,9 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "LOCKER_ID")
     private Locker locker;
 
-    private String city;
-    private String street;
-    private String zipcode;
+    @Embedded
+    private Period period;
+
+    @Embedded
+    private Address address;
 }
