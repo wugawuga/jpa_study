@@ -1,5 +1,6 @@
 package jpabook.jpashop;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -29,6 +30,17 @@ public class JpaMain {
             member.getAddressHistory().add(new Address("old2", "street", "10000"));
 
             em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            System.out.println("===============start====================");
+            Member findMember = em.find(Member.class, member.getId());
+
+            List<Address> addressHistory = findMember.getAddressHistory();
+            for (Address address : addressHistory) {
+                System.out.println("address.getCity() = " + address.getCity());
+            }
 
             tx.commit();
         } catch (Exception e) {
