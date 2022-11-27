@@ -1,6 +1,7 @@
 package hellojpa;
 
 import hellojpa.jpql.Member;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -22,8 +23,8 @@ public class JpaMain {
             em.persist(memberA);
 
             TypedQuery<Member> query = em.createQuery("select m from Member m", Member.class);
-            TypedQuery<String> query1 = em.createQuery("select m.username from Member m", String.class);
-            Query query2 = em.createQuery("select m.username, m.age from Member m");
+            List<Member> resultList = query.getResultList();
+            Member singleResult = query.getSingleResult();
 
             tx.commit();
         } catch (Exception e) {
