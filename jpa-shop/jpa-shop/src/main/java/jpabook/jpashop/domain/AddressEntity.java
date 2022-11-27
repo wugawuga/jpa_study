@@ -13,6 +13,10 @@ public class AddressEntity {
 
     private Address address;
 
+    public AddressEntity(String city, String street, String zipcode) {
+        this.address = new Address(city, street, zipcode);
+    }
+
     public Long getId() {
         return id;
     }

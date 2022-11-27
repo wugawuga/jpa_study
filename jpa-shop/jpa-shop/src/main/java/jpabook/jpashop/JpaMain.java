@@ -6,6 +6,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import jpabook.jpashop.domain.Address;
+import jpabook.jpashop.domain.AddressEntity;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Period;
 
@@ -26,8 +27,8 @@ public class JpaMain {
             member.getFavoriteFoods().add("치킨");
             member.getFavoriteFoods().add("햄버거");
 
-            member.getAddressHistory().add(new Address("old1", "street", "10000"));
-            member.getAddressHistory().add(new Address("old2", "street", "10000"));
+            member.getAddressHistory().add(new AddressEntity("old1", "street", "10000"));
+            member.getAddressHistory().add(new AddressEntity("old2", "street", "10000"));
 
             em.persist(member);
 
@@ -47,8 +48,8 @@ public class JpaMain {
             findMember.getFavoriteFoods().add("한식");
 
             // old -> new
-            findMember.getAddressHistory().remove(new Address("old1", "street", "10000"));
-            findMember.getAddressHistory().add(new Address("new1", "street", "10000"));
+            findMember.getAddressHistory().remove(new AddressEntity("old1", "street", "10000"));
+            findMember.getAddressHistory().add(new AddressEntity("new1", "street", "10000"));
 
             tx.commit();
         } catch (Exception e) {
