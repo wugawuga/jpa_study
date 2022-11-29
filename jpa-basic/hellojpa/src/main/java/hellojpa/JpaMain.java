@@ -22,11 +22,11 @@ public class JpaMain {
             memberA.setAge(10);
             em.persist(memberA);
 
-            TypedQuery<Member> query = em.createQuery("select m from Member m where m.username = :username",
-                    Member.class);
-            query.setParameter("username", "member1");
-            Member singleResult = query.getSingleResult();
-            System.out.println(singleResult);
+            Member result = em.createQuery("select m from Member m where m.username = :username",
+                            Member.class)
+                    .setParameter("username", "member1")
+                    .getSingleResult();
+            System.out.println(result);
 
             tx.commit();
         } catch (Exception e) {
