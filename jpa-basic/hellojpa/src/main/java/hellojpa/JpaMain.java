@@ -6,8 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -22,10 +20,15 @@ public class JpaMain {
             memberA.setAge(10);
             em.persist(memberA);
 
-            Member result = em.createQuery("select m from Member m where m.username = ?1",
-                            Member.class)
-                    .setParameter(1, "member1")
-                    .getSingleResult();
+            em.flush();
+            em.clear();
+
+            List<Member> result = em.createQuery("select m from Member m", Member.class)
+                    .getResultList();
+
+            Member member = result.get(0);
+            member.setAge(20);
+            
             System.out.println(result);
 
             tx.commit();
