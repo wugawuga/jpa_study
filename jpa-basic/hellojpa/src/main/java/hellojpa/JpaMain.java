@@ -1,6 +1,7 @@
 package hellojpa;
 
 import hellojpa.jpql.Member;
+import hellojpa.jpql.MemberDto;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,12 +24,14 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            List<Object[]> resultList = em.createQuery("select m.username, m.age from Member m")
+            List<MemberDto> result = em.createQuery(
+                            "select new hellojpa.jpql.MemberDto(m.username, m.age) from Member m", MemberDto.class)
                     .getResultList();
 
-            Object[] result = resultList.get(0);
-            System.out.println("result[0] = " + result[0]);
-            System.out.println("result[1] = " + result[1]);
+            MemberDto memberDto = result.get(0);
+            
+            System.out.println("memberDto.getUsername() = " + memberDto.getUsername());
+            System.out.println("memberDto.getAge() = " + memberDto.getAge());
 
             tx.commit();
         } catch (Exception e) {
