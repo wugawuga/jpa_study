@@ -26,12 +26,9 @@ public class JpaMain {
 
             List<MemberDto> result = em.createQuery(
                             "select new hellojpa.jpql.MemberDto(m.username, m.age) from Member m", MemberDto.class)
+                    .setFirstResult(10)
+                    .setMaxResults(20)
                     .getResultList();
-
-            MemberDto memberDto = result.get(0);
-            
-            System.out.println("memberDto.getUsername() = " + memberDto.getUsername());
-            System.out.println("memberDto.getAge() = " + memberDto.getAge());
 
             tx.commit();
         } catch (Exception e) {
