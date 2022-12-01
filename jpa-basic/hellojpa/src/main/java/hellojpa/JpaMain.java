@@ -25,7 +25,7 @@ public class JpaMain {
             em.clear();
 
             Member singleResult = em.createQuery(
-                    "select m from Member m join m.team t", Member.class).getSingleResult();
+                    "select m from Member m left join m.team t", Member.class).getSingleResult();
 
             tx.commit();
         } catch (Exception e) {
