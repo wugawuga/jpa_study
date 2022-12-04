@@ -21,6 +21,16 @@ public class Member {
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
+    private MemberType type;
+
+    public MemberType getType() {
+        return type;
+    }
+
+    public void setType(MemberType type) {
+        this.type = type;
+    }
+
     public Team getTeam() {
         return team;
     }

@@ -2,6 +2,7 @@ package hellojpa;
 
 import hellojpa.jpql.Member;
 import hellojpa.jpql.MemberDto;
+import hellojpa.jpql.MemberType;
 import hellojpa.jpql.Team;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -25,14 +26,22 @@ public class JpaMain {
             memberA.setUsername("member1");
             memberA.setAge(10);
             memberA.setTeam(team);
+            memberA.setType(MemberType.ADMIN);
 
             em.persist(memberA);
 
             em.flush();
             em.clear();
 
-            String query = "select (select avg(m1.age) from Member m1) as avgAge from Member m join Team t on m.username = t.name";
-            em.createQuery(query, Member.class);
+            String query = "select m.username, 'hello', TRUE from Member m "
+                    + "where m.type = hellojpa.jpql.MemberType.ADMIN";
+            List<Object[]> result = em.createQuery(query).getResultList();
+
+            for (Object[] objects : result) {
+                System.out.println("objects[0] = " + objects[0]);
+                System.out.println("objects[1] = " + objects[1]);
+                System.out.println("objects[2] = " + objects[2]);
+            }
 
             tx.commit();
         } catch (Exception e) {
