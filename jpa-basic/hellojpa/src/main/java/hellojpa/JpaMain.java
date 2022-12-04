@@ -1,5 +1,7 @@
 package hellojpa;
 
+import static hellojpa.jpql.MemberType.ADMIN;
+
 import hellojpa.jpql.Member;
 import hellojpa.jpql.MemberDto;
 import hellojpa.jpql.MemberType;
@@ -26,7 +28,7 @@ public class JpaMain {
             memberA.setUsername("member1");
             memberA.setAge(10);
             memberA.setTeam(team);
-            memberA.setType(MemberType.ADMIN);
+            memberA.setType(ADMIN);
 
             em.persist(memberA);
 
@@ -34,8 +36,10 @@ public class JpaMain {
             em.clear();
 
             String query = "select m.username, 'hello', TRUE from Member m "
-                    + "where m.type = hellojpa.jpql.MemberType.ADMIN";
-            List<Object[]> result = em.createQuery(query).getResultList();
+                    + "where m.type = :usertype";
+            List<Object[]> result = em.createQuery(query)
+                    .setParameter("userType", ADMIN)
+                    .getResultList();
 
             for (Object[] objects : result) {
                 System.out.println("objects[0] = " + objects[0]);
