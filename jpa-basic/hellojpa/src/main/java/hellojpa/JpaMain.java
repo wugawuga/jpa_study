@@ -33,7 +33,7 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select coalesce(m.username, '이름 없는 회원') from Member m";
+            String query = "select nullif(m.username, '관리자') from Member m";
             List<String> result = em.createQuery(query, String.class).getResultList();
 
             for (String s : result) {
