@@ -3,8 +3,6 @@ package hellojpa;
 import static hellojpa.jpql.MemberType.ADMIN;
 
 import hellojpa.jpql.Member;
-import hellojpa.jpql.MemberDto;
-import hellojpa.jpql.MemberType;
 import hellojpa.jpql.Team;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -35,11 +33,7 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select "
-                    + "case when m.age <= 10 then '학생요금' "
-                    + "when m.age >= 60 then '경로요금' "
-                    + "else '일반요금' end "
-                    + "from Member m";
+            String query = "select coalesce(m.username, '이름 없는 회원') from Member m";
             List<String> result = em.createQuery(query, String.class).getResultList();
 
             for (String s : result) {
