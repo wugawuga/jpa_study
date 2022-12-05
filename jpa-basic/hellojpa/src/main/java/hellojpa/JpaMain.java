@@ -35,7 +35,17 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            em.createQuery("select i from Item i where type(i) = Book", Item.class);
+            String query = "select m.username, 'hello', TRUE from Member m "
+                    + "where m.age between 0 and 10";
+            List<Object[]> result = em.createQuery(query)
+                    .setParameter("userType", ADMIN)
+                    .getResultList();
+
+            for (Object[] objects : result) {
+                System.out.println("objects[0] = " + objects[0]);
+                System.out.println("objects[1] = " + objects[1]);
+                System.out.println("objects[2] = " + objects[2]);
+            }
 
             tx.commit();
         } catch (Exception e) {
