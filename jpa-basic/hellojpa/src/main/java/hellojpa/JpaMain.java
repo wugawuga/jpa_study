@@ -33,14 +33,8 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            // 사용자 정의 함수
-            // 사용하는 DB 방언을 상속하고 사용자 정의 함수를 등록
-            String query = "select function('group_concat', m.username) from Member m";
-            List<String> result = em.createQuery(query, String.class).getResultList();
-
-            for (String s : result) {
-                System.out.println("s = " + s);
-            }
+            String query = "select m.team from Member m";
+            em.createQuery(query, String.class).getResultList();
 
             tx.commit();
         } catch (Exception e) {
