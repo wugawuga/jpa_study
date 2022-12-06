@@ -33,7 +33,7 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select t.name from Member m join m.team t";
+            String query = "select m from Member m join fetch m.team t";
             em.createQuery(query, String.class).getResultList();
 
             tx.commit();
