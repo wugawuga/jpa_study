@@ -9,8 +9,10 @@
 *.gradle
 build/
 *.properties
+*.yml
 HELP.md
 gradle.bat
 gradlew
 gradlew.bat
 gradle-wrapper.jar
+out/
