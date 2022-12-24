@@ -6,6 +6,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.entity.Member;
 
@@ -109,5 +113,18 @@ class MemberJpaRepositoryTest {
         for (Member diffMember : byPage1) {
             System.out.println("diffMember = " + diffMember);
         }
+    }
+
+    @Test
+    public void bulkAgePlus() {
+        memberJpaRepository.save(new Member("AAA", 10));
+        memberJpaRepository.save(new Member("BBB", 22));
+        memberJpaRepository.save(new Member("CCC", 34));
+        memberJpaRepository.save(new Member("DDD", 56));
+        memberJpaRepository.save(new Member("EEE", 53));
+
+        int count = memberJpaRepository.bulkAgePlus(30);
+
+        assertThat(count).isEqualTo(3);
     }
 }

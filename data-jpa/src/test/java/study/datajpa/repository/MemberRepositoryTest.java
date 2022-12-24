@@ -141,4 +141,17 @@ class MemberRepositoryTest {
         assertThat(page.isFirst()).isTrue();
         assertThat(page.hasNext()).isTrue();
     }
+
+    @Test
+    public void bulkAgePlus() {
+        memberRepository.save(new Member("AAA", 10));
+        memberRepository.save(new Member("BBB", 22));
+        memberRepository.save(new Member("CCC", 34));
+        memberRepository.save(new Member("DDD", 56));
+        memberRepository.save(new Member("EEE", 53));
+
+        int count = memberRepository.bulkAgePlus(30);
+
+        assertThat(count).isEqualTo(3);
+    }
 }
