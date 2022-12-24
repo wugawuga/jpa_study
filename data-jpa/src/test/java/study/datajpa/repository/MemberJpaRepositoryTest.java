@@ -86,4 +86,28 @@ class MemberJpaRepositoryTest {
         assertThat(aaa.get(0)).isEqualTo(m1);
         assertThat(bbb.get(0)).isEqualTo(m2);
     }
+
+    @Test
+    public void findByPage() {
+        memberJpaRepository.save(new Member("AAA", 10));
+        memberJpaRepository.save(new Member("BBB", 10));
+        memberJpaRepository.save(new Member("CCC", 10));
+        memberJpaRepository.save(new Member("DDD", 10));
+        memberJpaRepository.save(new Member("EEE", 10));
+
+        int age = 10;
+        int offset = 0;
+        int limit = 3;
+
+        List<Member> byPage = memberJpaRepository.findByPage(age, offset, limit);
+        List<Member> byPage1 = memberJpaRepository.findByPage(age, 3, limit);
+
+        for (Member member : byPage) {
+            System.out.println("member = " + member);
+        }
+
+        for (Member diffMember : byPage1) {
+            System.out.println("diffMember = " + diffMember);
+        }
+    }
 }
