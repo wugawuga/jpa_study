@@ -2,6 +2,7 @@ package study.datajpa.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,5 +100,18 @@ class MemberRepositoryTest {
 
         assertThat(aaa.get(0)).isEqualTo(m1);
         assertThat(bbb.get(0)).isEqualTo(m2);
+    }
+
+    @Test
+    public void testNames() {
+        Member m1 = new Member("AAA", 10);
+        Member m2 = new Member("BBB", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> byNames = memberRepository.findByNames(Arrays.asList("AAA", "BBB"));
+        for (Member byName : byNames) {
+            System.out.println("byName.getUsername() = " + byName.getUsername());
+        }
     }
 }
