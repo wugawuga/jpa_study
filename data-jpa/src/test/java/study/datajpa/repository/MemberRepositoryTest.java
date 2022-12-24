@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
+import study.datajpa.entity.Team;
 
 @SpringBootTest
 @Transactional
@@ -23,6 +25,12 @@ class MemberRepositoryTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    TeamRepository teamRepository;
+
+    @Autowired
+    EntityManager em;
 
     @Test
     public void testMember() {
@@ -153,5 +161,34 @@ class MemberRepositoryTest {
         int count = memberRepository.bulkAgePlus(30);
 
         assertThat(count).isEqualTo(3);
+    }
+
+    @Test
+    public void findMemberLazy() {
+        //given
+        Team teamA = new Team("teamA");
+        Team teamB = new Team("teamB");
+        teamRepository.save(teamA);
+        teamRepository.save(teamB);
+
+        Member member1 = new Member("member1", 10, teamA);
+        Member member2 = new Member("member2", 10, teamB);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        em.flush();
+        em.clear();
+
+        //then
+        //List<Member> findALl = memberRepository.findAll();
+        //List<Member> memberFetchJoin = memberRepository.findMemberFetchJoin();
+        //List<Member> memberEntityGraph = memberRepository.findMemberEntityGraph();
+        List<Member> all = memberRepository.findEntityGraphByUsername("member1");
+        for (Member member : all) {
+            System.out.println("member = " + member.getUsername());
+            System.out.println("member.getTeam(). = " + member.getTeam().getClass());
+            System.out.println("member.getTeam(). = " + member.getTeam().getName());
+            System.out.println("member.getTeam().getClass() = " + member.getTeam().getClass());
+        }
     }
 }
