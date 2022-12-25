@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString(of = {"id", "username", "age"})
 @NamedQuery(name = "Member.findByUsername",
         query = "select m from Member m where m.username = :username")
-public class Member extends JpaBaseEntity {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue
