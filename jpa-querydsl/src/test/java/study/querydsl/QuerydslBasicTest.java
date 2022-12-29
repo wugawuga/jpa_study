@@ -220,4 +220,43 @@ public class QuerydslBasicTest {
         assertThat(teamB.get(QTeam.team.name)).isEqualTo("teamB");
         assertThat(teamB.get(QMember.member.age.avg())).isEqualTo(35);
     }
+
+    /**
+     * 팀 A에 소속된 모든 회원
+     */
+    @Test
+    public void join() {
+        List<Member> result = queryFactory
+                .selectFrom(QMember.member)
+                .join(QMember.member.team, QTeam.team)
+//                .leftJoin(QMember.member.team, QTeam.team)
+//                .innerJoin(QMember.member.team, QTeam.team)
+//                .rightJoin(QMember.member.team, QTeam.team)
+                .where(QTeam.team.name.eq("teamA"))
+                .fetch();
+
+        assertThat(result)
+                .extracting("username")
+                .containsExactly("member1", "member2");
+    }
+
+    /**
+     * 세타 조인 회원의 이름이 팀 이름과 같은 회원 조회
+     */
+    @Test
+    public void theta_join() {
+        em.persist(new Member("teamA"));
+        em.persist(new Member("teamB"));
+        em.persist(new Member("teamC"));
+
+        List<Member> result = queryFactory
+                .select(QMember.member)
+                .from(QMember.member, QTeam.team)
+                .where(QMember.member.username.eq(QTeam.team.name))
+                .fetch();
+
+        assertThat(result)
+                .extracting("username")
+                .containsExactly("teamA", "teamB");
+    }
 }
