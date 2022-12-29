@@ -3,6 +3,7 @@ package study.querydsl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.entity.Member;
 import study.querydsl.entity.QMember;
+import study.querydsl.entity.QTeam;
 import study.querydsl.entity.Team;
 
 @SpringBootTest
@@ -175,5 +177,47 @@ public class QuerydslBasicTest {
         assertThat(queryResults.getLimit()).isEqualTo(2);
         assertThat(queryResults.getOffset()).isEqualTo(1);
         assertThat(queryResults.getResults().size()).isEqualTo(2);
+    }
+
+    @Test
+    public void aggregation() {
+        List<Tuple> result = queryFactory
+                .select(
+                        QMember.member.count(),
+                        QMember.member.age.sum(),
+                        QMember.member.age.avg(),
+                        QMember.member.age.max(),
+                        QMember.member.age.min()
+                )
+                .from(QMember.member)
+                .fetch();
+
+        Tuple tuple = result.get(0);
+        assertThat(tuple.get(QMember.member.count())).isEqualTo(4);
+        assertThat(tuple.get(QMember.member.age.sum())).isEqualTo(100);
+        assertThat(tuple.get(QMember.member.age.avg())).isEqualTo(25);
+        assertThat(tuple.get(QMember.member.age.max())).isEqualTo(40);
+        assertThat(tuple.get(QMember.member.age.min())).isEqualTo(10);
+    }
+
+    /**
+     * 팀의 이름과 각 팀의 평균 연령을 구해라
+     */
+    @Test
+    public void group() {
+        List<Tuple> result = queryFactory
+                .select(QTeam.team.name, QMember.member.age.avg())
+                .from(QMember.member)
+                .join(QMember.member.team, QTeam.team)
+                .groupBy(QTeam.team.name)
+                .fetch();
+
+        Tuple teamA = result.get(0);
+        Tuple teamB = result.get(1);
+
+        assertThat(teamA.get(QTeam.team.name)).isEqualTo("teamA");
+        assertThat(teamA.get(QMember.member.age.avg())).isEqualTo(15);
+        assertThat(teamB.get(QTeam.team.name)).isEqualTo("teamB");
+        assertThat(teamB.get(QMember.member.age.avg())).isEqualTo(35);
     }
 }
