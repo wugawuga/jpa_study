@@ -54,6 +54,47 @@ class MemberJpaRepositoryTest {
 
     @Test
     public void searchTest() {
+        insertEntity();
+
+        MemberSearchCondition condition = new MemberSearchCondition();
+        condition.setAgeGoe(35);
+        condition.setAgeLoe(40);
+        condition.setTeamName("teamB");
+
+        List<MemberTeamDto> result = memberJpaRepository.searchByBuilder(condition);
+
+        assertThat(result).extracting("username").containsExactly("member4");
+    }
+
+    @Test
+    public void searchByBooleanExpressionTest() {
+        insertEntity();
+
+        MemberSearchCondition condition = new MemberSearchCondition();
+        condition.setAgeGoe(35);
+        condition.setAgeLoe(40);
+        condition.setTeamName("teamB");
+
+        List<MemberTeamDto> result = memberJpaRepository.search(condition);
+
+        assertThat(result).extracting("username").containsExactly("member4");
+    }
+
+    @Test
+    public void searchByBooleanExpressionRe() {
+        insertEntity();
+
+        MemberSearchCondition condition = new MemberSearchCondition();
+        condition.setAgeGoe(35);
+        condition.setAgeLoe(40);
+        condition.setTeamName("teamB");
+
+        List<Member> members = memberJpaRepository.searchMember(condition);
+
+        assertThat(members).extracting("username").containsExactly("member4");
+    }
+
+    private void insertEntity() {
         Team teamA = new Team("teamA");
         Team teamB = new Team("teamB");
         em.persist(teamA);
@@ -68,14 +109,5 @@ class MemberJpaRepositoryTest {
         em.persist(member2);
         em.persist(member3);
         em.persist(member4);
-
-        MemberSearchCondition condition = new MemberSearchCondition();
-        condition.setAgeGoe(35);
-        condition.setAgeLoe(40);
-        condition.setTeamName("teamB");
-
-        List<MemberTeamDto> result = memberJpaRepository.searchByBuilder(condition);
-
-        assertThat(result).extracting("username").containsExactly("member4");
     }
 }
