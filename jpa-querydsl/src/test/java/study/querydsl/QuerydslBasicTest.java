@@ -725,4 +725,34 @@ public class QuerydslBasicTest {
 
         assertThat(count).isEqualTo(3);
     }
+
+    @Test
+    public void sqlFunction() {
+        List<String> result = queryFactory
+                .select(
+                        Expressions.stringTemplate(
+                                "function('replace', {0}, {1}, {2})",
+                                QMember.member.username, "member", "M"))
+                .from(QMember.member)
+                .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
+
+    @Test
+    public void sqlFunction2() {
+        List<String> result = queryFactory
+                .select(QMember.member.username)
+                .from(QMember.member)
+//                .where(QMember.member.username.eq(
+//                        Expressions.stringTemplate("function('lower', {0})", QMember.member.username)))
+                .where(QMember.member.username.eq(QMember.member.username.upper()))
+                .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
 }
